@@ -1,27 +1,7 @@
 <?php
 session_start();
-include("funciones.php");
-//Obtengo la configuracion de la pagina
-//para comprobar el usuario y la contrasenia
-$config = obtenerConfiguracion();
+include("persona.php");
 
-//pregunto si se presiono el boton inciar
-if(isset($_POST['iniciar'])){
-    //tomo los datos del cliente
-    $usuario = $_POST['usuario'];
-    $password = $_POST['password'];
-
-    //compruebo datos
-    if($usuario == $config['user'] && ($password==$config['password'])){
-        $_SESSION['usuarioLogueado'] = $user;
-
-        //lo mando a la pagina principal
-        header("Location: index.php"); 
-    }else{
-        $mensaje = "* El nombre de usuario o la contrasenia son incorrectos";
-    }
-
-}
 
 ?>
 <!DOCTYPE html>
@@ -39,6 +19,7 @@ if(isset($_POST['iniciar'])){
             <div class="titulo">
                 <h1>Yuguen</h1>
                 <p>Sistema de Administracion</p>
+            </div>
                 <div class="contenedor-formulario">
                     <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post" class="form-login">
                      <p>Iniciar Sesion Como <strong>administrador</strong></p>
@@ -47,11 +28,23 @@ if(isset($_POST['iniciar'])){
                      <input type="submit" placeholder="Iniciar Sesion" name="Iniciar" class="btn">
 
                      <!-- Mensaje que se mostrara cuando se haya procesado la solicitud y los datos sean incorrectos -->
-                     <?php if(isset($_POST['inciar'])):?>
+                     <?php
+                        if(isset($_POST['Iniciar'])){
+                            //tomo los datos del cliente
+                            $usuario = $_POST['usuario'];
+                            $password = $_POST['password'];
+                      
+                            $config = new persona();
+                            $config -> setUser($_POST['usuario']);
+                            $config -> setPassword($_POST['password']);
+                            $config -> ingresarPersona();
+                        }
+                            
+                    ?>
                         <span class="msj-error-input">
-                        <?php echo $mensaje?>
-                        </span>
-                        <?php endif ?>
+                            
+                        
+                        </span>      
                 </form>
                 </div>
             </div>
@@ -60,3 +53,5 @@ if(isset($_POST['iniciar'])){
     
 </body>
 </html>
+
+    
